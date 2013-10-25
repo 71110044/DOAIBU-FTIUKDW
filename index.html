@@ -2,7 +2,36 @@
 <html>
 <head>
 	<title>Jersey DW</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+	<meta name="description" content="jersey" />
+	<meta name="keywords" content="jersey" />
 	<link rel="stylesheet" type="text/css" href="style.css">
+	<script type="text/javascript" src="js/jquery.js"></script>
+	<script type="text/javascript">
+		var image1 = new Image()
+		image1.src = "images/slider/1.png"
+
+		var image2 = new Image()
+		image2.src = "images/slider/2.png"
+
+		var image3 = new Image()
+		image3.src = "images/slider/3.png"
+
+		var image4 = new Image()
+		image4.src = "images/slider/4.png"
+	</script>
+
+	<script type="text/javascript">
+		$(document).ready(function(){
+			$("dd:not(:first)").hide();
+			$("dt a").click(function() {
+				$("dd:visible").slideUp("slow");
+				$(this).parent().next().slideDown("slow");
+				return false;
+			});
+		});
+	</script>
+	
 </head>
 <body>
 	<div id="wrapper">
