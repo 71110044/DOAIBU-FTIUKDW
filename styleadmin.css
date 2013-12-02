@@ -1,0 +1,119 @@
+body
+{
+	background-color: silver;
+}
+#wrapper
+{
+	width: 1100px;
+	height: auto;
+	margin: 0px auto;
+}
+#header
+{
+	width: 1100px;
+	height: 100px;
+	border-radius: 20px 20px 0px 0px;
+
+}
+
+#navigation
+{
+	width: 1100px;
+	height: 50px;
+	background-color: black;
+	border-top: 1px solid black;
+}
+
+#navigation ul li
+{
+	float: left;
+	list-style-type: none;
+	margin-right: 45px;
+	padding: 4px;
+	
+}
+
+#navigation ul li a
+{
+	text-decoration: none;
+	font-size: 15px;
+	text-align: center;
+	color: white;
+}
+
+#navigation ul li a:hover
+{
+	color: darkMagenta;
+	font-weight: bold;
+}
+
+.clear
+{
+	clear: both;
+}
+
+
+#login
+{
+	float: right;
+	margin :5px;
+	font-size: 15px;
+	color: white;
+	position: relative;
+}
+
+#login a
+{
+	text-decoration: none;
+	font-weight: bold;
+	color: lightBlue;
+}
+
+#login a:hover
+{
+	color: magenta;
+}
+
+#footer
+{
+	width: 960px;
+	height: 50px
+	border-radius: 0px 0px 20px 20px;
+	color: white;
+	padding-top: 10px;
+	padding-bottom: 0px;
+	text-align: center;
+}
+
+#footer a
+{
+	color: slateGray;
+}
+
+table
+{
+	border-collapse: separate;
+	empty-cells: hide;
+	table-layout: fixed;
+}
+
+.detailjual
+{
+	cursor: pointer;
+}
+
+.detailjual:hover
+{
+	background-color: cyan;
+}
+
+#loadingBox {
+	position: absolute;
+	display: none;
+	left: 0px;
+	right: 0px;
+	top: 0px;
+	bottom: 0px;
+	margin: auto;
+	border-radius: 10px;
+}
