@@ -1,0 +1,187 @@
+<!doctype html>
+<html>
+<head>
+	<title>Jersey DW</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<meta name="description" content="jersey" />
+	<meta name="keywords" content="jersey" />
+	<script type="text/javascript" src="js/jquery.js"></script>
+	<script type="text/javascript" src="js/spin.min.js"></script>
+	<link rel="stylesheet" type="text/css" href="style.css">
+	<script type="text/javascript">
+		var image1 = new Image()
+		image1.src = "images/slider/1.png"
+
+		var image2 = new Image()
+		image2.src = "images/slider/2.png"
+
+		var image3 = new Image()
+		image3.src = "images/slider/3.png"
+
+		var image4 = new Image()
+		image4.src = "images/slider/4.png"
+	</script>
+
+	<script type="text/javascript">
+	var opts = {
+		  lines: 15, // The number of lines to draw
+		  length: 14, // The length of each line
+		  width: 10, // The line thickness
+		  radius: 30, // The radius of the inner circle
+		  corners: 1, // Corner roundness (0..1)
+		  rotate: 0, // The rotation offset
+		  direction: 1, // 1: clockwise, -1: counterclockwise
+		  color: '#000', // #rgb or #rrggbb or array of colors
+		  speed: 1, // Rounds per second
+		  trail: 60, // Afterglow percentage
+		  shadow: false, // Whether to render a shadow
+		  hwaccel: false, // Whether to use hardware acceleration
+		  className: 'spinner', // The CSS class to assign to the spinner
+		  zIndex: 2e9, // The z-index (defaults to 2000000000)
+		  top: 'auto', // Top position relative to parent in px
+		  left: 'auto' // Left position relative to parent in px
+		};
+		var spinner = new Spinner(opts);
+
+		$(document).ready(function(){
+			$("dd:not(:first)").hide();
+			$("dt a").click(function() {
+				$("dd:visible").slideUp("slow");
+				$(this).parent().next().slideDown("slow");
+				return false;
+			});
+
+			$("#daftar").click(function(event) {
+				$("div.overlay").animate({opacity: 0.8, "z-index": 0},700);
+				$("#daftarmember").animate({top: "100px"}, 1000, function() {
+					$(document).mouseup(function (e) {
+					    var container = $("#daftarmember");
+					    var body = $("body");
+					    if (!container.is(e.target)
+					        && container.has(e.target).length === 0 && (body.has(e.target).length > 0) || body.is(e.target))
+					    {
+					    	$(document).unbind('mouseup');
+					        $("#daftarmember").animate({top: "-400px"}, 1000);
+					        $("div.overlay").animate({opacity: 0, "z-index": -50},700);
+					    }
+					});
+				});
+			});
+
+
+			$(".detailbarang").click(function(e){
+				var id = parseInt($(e.target).attr("id"));
+				
+				$.get("detail.php?id="+id, function(data){
+					$('#sidecenter').html(data);
+					// hide gambar loading...
+				});
+
+			});
+
+			$("a.navajax").click(function(e) {
+				var id = parseInt($(e.target).attr("id"));
+				var page = '';
+				switch (id) {
+					case 1:
+						page = 'topitems.php';
+						break;
+					case 2:
+						page = 'carapemesanan.php';
+						break;
+					case 3:
+						page = 'kontakkami.php';
+						break;
+					case 4:
+						page = 'tentangkami.php';
+						break;
+					case 5:
+						page = 'syarat.php';
+						break;
+					case 6:
+						page = 'pengiriman.php';
+						break;
+				}
+				$.get(page, function(data){
+					$('#sidecenter').html(data);
+				});
+			});
+
+			$("#buttlogin").click(function() {
+				//$("#login").hide();
+				spinner.spin($("#login"));
+				var username = document.getElementById("username").value;
+				var password = document.getElementById("password").value;
+				$.post("do_login.php", {loginusername: username, loginpassword: password}, function(data) {
+					spinner.stop();
+					if (data.ok) {
+						$("#login").fadeOut(400,function() {
+							$("#login").html('');
+							$("#login").fadeIn(400,function() {
+								$("#login").html('<h3>Halo, '+ data.username +' | <a href="do_logout.php">Keluar</a></h3>');
+							});
+						});
+						$.get("sideright_login.php", function(data2) {
+							$("#sideright").fadeOut(400,function() {
+								$("#sideright").html('');
+								$("#sideright").fadeIn(400,function() {
+									$("#sideright").html(data2);
+								});
+							});
+						});
+					}
+					else {
+						alert("Username atau password salah...");
+					}
+					//$("#login").show();
+				}, "json");
+			});
+
+			$("#buttsignup").click(function(){
+				var daftarusername = document.getElementById("daftarusername").value;
+				var daftarpassword = document.getElementById("daftarpassword").value;
+				var konfirmpassword = document.getElementById("konfirmpassword").value;
+				var daftarnama = document.getElementById("daftarnama").value;
+				var daftaremail = document.getElementById("daftaremail").value;
+				var daftaralamat = document.getElementById("daftaralamat").value;
+				var daftarkodepos = document.getElementById("daftarkodepos").value;
+				var daftartelp = document.getElementById("daftartelp").value;
+
+				$.post("do_signup.php", {daftarusername: daftarusername, daftarpassword: daftarpassword, konfirmpassword: konfirmpassword, 
+				 daftarnama: daftarnama, daftaremail: daftaremail, daftaralamat:daftaralamat, daftarkodepos:daftarkodepos,daftartelp : daftartelp}, function(data) {
+				 	if (data.ok) {
+				 		alert("Daftar berhasil");
+						$(document).unbind('mouseup');
+					    $("#daftarmember").animate({top: "-400px"}, 1000);
+					    $("div.overlay").animate({opacity: 0, "z-index": -50},700);
+					    $("#login").fadeOut(400,function() {
+							$("#login").html('');
+							$("#login").fadeIn(400,function() {
+								$("#login").html('<h3>Halo, '+ data.username +' | <a href="do_logout.php">Keluar</a></h3>');
+							});
+						});
+						$.get("sideright_login.php", function(data2) {
+							$("#sideright").fadeOut(400,function() {
+								$("#sideright").html('');
+								$("#sideright").fadeIn(400,function() {
+									$("#sideright").html(data2);
+								});
+							});
+						});
+				 	}
+				 	else {
+				 		alert(data.error);
+				 	}
+				}, "json");
+
+			});
+		});
+	</script>
+
+</head>
+<body id="bodi">
+	<script type="text/javascript">
+		spinner.spin(document.getElementById("bodi"));
+	</script>
+</body>
+</html>
